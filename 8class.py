@@ -39,24 +39,86 @@ class tree:
             return root.data+self.evensum(root.left)+self.evensum(root.right)
         return self.evensum(root.left)+self.evensum(root.right)
 
-    def oe(self,root):
+    def oddeven(self,root):
         if(root==None):
             return 0
         if(root.data%2==0):
             return root.data+self.evensum(root.left)+self.evensum(root.right)
-        return root.data-self.evensum(root.left)+self.evensum(root.right)
+        return self.evensum(root.left)+self.evensum(root.right)-root.data
+
+    def htree(self, root):
+        if root is None:
+            return -1
+        return max(self.htree(root.left), self.htree(root.right)) + 1
+
+    def bal(self, root):
+        return abs(self.htree(root.left) - self.htree(root.right)) <= 1
+
+    def checkbal(self):
+        if self.bal(self.root):
+            print("Balanced")
+        else:
+            print("Not Balanced")
+
+    def search(self, root, value):
+        if root is None:
+            return False
+        if root.data == value:
+            return value,True
+        if(root.data>value):
+            return self.search(root.left,value)
+        else:
+            return self.search(root.right,value)
+        # return self.search(root.left, value) or self.search(root.right, value)
+
+    def depth(self,root,x,c):
+        if(root==None):
+            return -1
+        if(root.data==x):
+            return c
+        if(root.data>x):
+            return self.depth(root.left,x,c+1)
+        else:
+            return self.depth(root.right,x,c+1)
+
+
+
+
+'''             10
+          5             20
+    2         7
+           6     8                      '''
 
 
 t=tree()
-t.root=Node(2)
-t.create(t.root,3)
+t.root=Node(10)
 t.create(t.root,5)
+t.create(t.root,20)
 t.create(t.root,2)
+t.create(t.root,7)
+t.create(t.root,6)
+t.create(t.root,8)
 # t.preorder(t.root)
 # t.postorder(t.root)
+print("sum",end="")
 print(t.sum(t.root))
+print("even",end="")
 print(t.evensum(t.root))
-print(t.oe(t.root))
+print("odd and even",end=" ")
+print(t.oddeven(t.root))
+print("tree height",end=" ")
+print(t.htree(t.root))
+print("check balance tree or not",end=" ")
+print(t.checkbal())
+print("searching",end=" ")
+print(t.search(t.root,20))
+print("depth",end=" ")
+print(t.depth(t.root,20,0))
+
+
+
+
+
 
 #print(t.sum(t.root.left))         #for adding left
 
@@ -138,3 +200,7 @@ print("preorder Ro-L-R")
 print(root.PreorderTraversal(root))
 print("postorder-L-R-Ro")
 print(root.PostorderTraversal(root))'''
+
+
+
+
